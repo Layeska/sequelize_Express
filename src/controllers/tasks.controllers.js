@@ -28,7 +28,7 @@ const createTask = async(req, res) => {
     try {
         const body = req.body;
         const result = await TasksServices.createTasks(body);
-        res.status(200).json(result);
+        res.status(201).json(result);
     } catch(error) { console.log(error); }
 };
 

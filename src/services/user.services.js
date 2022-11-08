@@ -61,7 +61,12 @@ class UserServices {
         } catch(error) { console.log(error); }
     }
 
-    
+    static async addUser(body) {
+        try {
+            const result = await Users.create(body);
+            return result;
+        } catch(error) { console.log(error); }
+    }
 }
 
 module.exports = UserServices;
