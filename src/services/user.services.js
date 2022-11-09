@@ -33,7 +33,7 @@ class UserServices {
                 }
             });
             return result;
-        } catch(error) { console.log(error);}
+        } catch(error) { throw(error);}
     }
 
     static async getUserJoinTasks(id) {
@@ -58,14 +58,21 @@ class UserServices {
                 }
             });
             return result;
-        } catch(error) { console.log(error); }
+        } catch(error) { throw(error); }
     }
 
     static async addUser(body) {
         try {
             const result = await Users.create(body);
             return result;
-        } catch(error) { console.log(error); }
+        } catch(error) { throw(error); }
+    }
+
+    static async update(id, body) {
+        try {
+            const result = await Users.update(body, {where: {id}});
+            return result;
+        } catch(error) { throw(error); }
     }
 }
 
