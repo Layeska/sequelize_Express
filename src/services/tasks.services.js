@@ -1,20 +1,28 @@
 const tasksServices = require("../models/taskscategories.models");
 const Tasks = require("../models/tasks.models");
 const Categories = require("../models/categories.models");
+const TaskCategories = require("../models/taskscategories.models");
 
 class TasksServices {
-    static async getAll() {
-        try {
-            const result = await Tasks.findAll({attributes: ["id", "user_id", "title", "description", "is_complete", "createdAt"]});
-            return result;
-        } catch(error) { throw error; }
-    }
 
-    static async getById(id) {
+    static async getById(userId) {
         try {
-            const result = await Tasks.findByPk(id, {attributes: ["id", "user_id", "title", "description", "is_complete", "createdAt"]});
+            const result = await Tasks.findAll({
+                where: { userId },
+                attributes: ["id", "title", "description", "isCompleted", "createdAt"],
+                include: {
+                    model: TaskCategories,
+                    as: "categories",
+                    attributes: ["categoryId"],
+                    include: {
+                        model: Categories,
+                        as: "categories",
+                        attributes: ["name"]
+                    }
+                }
+            });
             return result;
-        } catch(error) { throw error; }
+        } catch(error) {  throw error; }
     }
 
     static async getByCategory(id) {
@@ -36,16 +44,23 @@ class TasksServices {
         } catch(error) { throw error; }
     }
 
-    static async createTasks(tasks) {
+    static async createTasks(tasks, categories) {
         try { 
             const result = await Tasks.create(tasks);
-            return result;
+            const {id} = result;  
+            //console.log(id);
+           // categories.forEach(async (category) => await TaskCategories.create({categoryId: category, tasksId: 1}));
+           categories.forEach( 
+            async (c) =>
+              await TaskCategories.create({ categoryId: c, tasksId: id })
+          );
+           return true;
         } catch(error) { throw error; }
     }
 
-    static async updateTask(body, id) {
+    static async updateTask(id) {
         try {
-            const result = await Tasks.update(body, {where: {id}});
+            const result = await Tasks.update({isCompleted: true},{where: {id}});
             return result;
         } catch(error) { throw error; }
     }

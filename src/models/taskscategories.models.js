@@ -19,16 +19,15 @@ const TaskCategories = db.define("task_categories", {
         preferences: {
             model: Categories,
             key: "id"
-        },
-
-        tasksId: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
-            field: "task_id",
-            reference: {
-                model: Tasks,
-                key: "id"
-            }
+        }
+    },
+    tasksId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        field: "task_id",
+        reference: {
+            model: Tasks,
+            key: "id"
         }
     }
 },{ timestamps: false, });

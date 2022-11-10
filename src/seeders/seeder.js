@@ -28,7 +28,7 @@ const tasks = [
     { title: "Drinking water", userId: 3}
 ];
 
-db.sync({force: false})
+db.sync({force: false}) 
 .then(async() => { 
     console.log("**** Starting Seeder ****");
     users.forEach(user => Users.create(user)); 
@@ -36,3 +36,20 @@ db.sync({force: false})
 .then(() => { categories.forEach(cate => Categories.create(cate)); })
 .then(() => { tasks.forEach(t => Tasks.create(t)); })
 .then(() => { addresses.forEach(add => Address.create(add)); });
+
+/*db.sync({force: true}).then(async() => {
+    console.log("**** Starting Seeder ****");
+    users.forEach(user => Users.create(user)); 
+
+    setTimeout(() => {
+        addresses.forEach((add) => Address.create(add));
+    }, 100);
+
+    setTimeout(() => {
+        categories.forEach(cate => Categories.create(cate));
+    }, 100);
+
+    setTimeout(() => {
+        tasks.forEach(t => Tasks.create(t));
+    }, 100);
+});*/

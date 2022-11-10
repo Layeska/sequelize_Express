@@ -6,7 +6,7 @@ const db = require("./utils/database");
 const userRoutes = require("./routes/user.routes");
 const tasksRoutes = require("./routes/tasks.routes");
 
-const morgan = require("morgan");
+//const morgan = require("morgan");
 const handleError = require("./middlewares/error");
 
 const logs = require("./middlewares/requestLogs");
@@ -14,6 +14,8 @@ const logs = require("./middlewares/requestLogs");
 require("dotenv").config();
 
 const app = express();
+app.use(express.json());
+
 
 const PORT = process.env.PORT || 8000;
 
@@ -28,12 +30,11 @@ db.authenticate().then(() => console.log("*** Successful authentication ***")).c
 db.sync({force: false}).then(() => console.log("*** Synchronized database ***")).catch(error => console.log(error));
 
 initModels();
-app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 
 app.use(logs);
-app.use(morgan("tiny"));
+//app.use(morgan("tiny"));
 
 
 
@@ -42,13 +43,13 @@ app.use(morgan("tiny"));
     next();
 })*/
 
-app.use("/api/v1", userRoutes);
+app.use("/api/v1", userRoutes); 
+app.use("/api/v1", tasksRoutes);
 
 app.use((req, res, next) => {
     console.log("despues de atender las peticiones anteriores");
 }) 
 
-app.use("/api/v1", tasksRoutes);
 
 /*app.use((error, req, res, next) => {
     res.status(400).json({ 

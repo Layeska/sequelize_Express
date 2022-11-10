@@ -1,19 +1,27 @@
 const {Router} = require("express");
-const {getAllTasks, getTasksById, getTasksByCategory,
-        createTask, updateTasks, deleteTasks} = require("../controllers/tasks.controllers");
+const { getTasksByUserId, getTasksByCategory,
+        createTask, completedTasks, deleteTasks} = require("../controllers/tasks.controllers");
 
 const routerTasks = Router();
 
-routerTasks.get("/tasks", getAllTasks);
+routerTasks.get("/tasks/:userId", getTasksByUserId);
 
-routerTasks.get("/tasks/:id", getTasksById);
-
-routerTasks.get("/tasks/:id/category", getTasksByCategory);
+//routerTasks.get("/tasks/:id/category", getTasksByCategory);
 
 routerTasks.post("/tasks", createTask);
 
-routerTasks.put("/tasks", updateTasks);
+routerTasks.patch("/tasks/:id", completedTasks);
 
-routerTasks.delete("/tasks", deleteTasks);
+//routerTasks.delete("/tasks", deleteTasks);
 
 module.exports = routerTasks;
+
+/*
+{
+  "tasks": {
+    "userId": 1,
+    "title": "Finish the CRUD - New",
+    "description": ""
+  }, "categories": [1,5]
+}
+*/
