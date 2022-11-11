@@ -5,6 +5,7 @@ const db = require("./utils/database");
 
 const userRoutes = require("./routes/user.routes");
 const tasksRoutes = require("./routes/tasks.routes");
+const authRoutes = require("./routes/auth.routes");
 
 //const morgan = require("morgan");
 const handleError = require("./middlewares/error");
@@ -45,6 +46,7 @@ app.use(logs);
 
 app.use("/api/v1", userRoutes); 
 app.use("/api/v1", tasksRoutes);
+app.use("/api/v1", authRoutes);
 
 app.use((req, res, next) => {
     console.log("despues de atender las peticiones anteriores");
@@ -62,3 +64,4 @@ app.use((req, res, next) => {
 app.use(handleError);
 
 app.listen(PORT, ()=> console.log(`--- Active Server in ${PORT} port! ---`));
+//contraseña : no me veré --- prueba1@gmail.com
