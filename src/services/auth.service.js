@@ -5,12 +5,10 @@ class AuthService {
     static async login(email, password) {
         try {
             const result = await Users.findOne({where: {email}});
-
-            console.log(result);
-
+            
             if(result) {
                 const isValid = bcrypt.compareSync(password, result.password);
-                return isValid;
+                return {isValid, result};
             }
 
             return false;
